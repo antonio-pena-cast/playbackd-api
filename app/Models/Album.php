@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Album extends Model {
@@ -9,7 +10,7 @@ class Album extends Model {
     use HasFactory;
 
     public function users() {
-        return $this->belongsToMany(User::class)->withPivot('type')->withPivot('review')->withPivot('rating')->withPivot('date');
+        return $this->belongsToMany(User::class, "add")->withPivot('type', "review", "rating", "date");
     }
 
     public $guarded = [];

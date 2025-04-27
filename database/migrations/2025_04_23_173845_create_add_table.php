@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('review')->nullable();
             $table->double('rating')->nullable();
             $table->date('date')->nullable();
+            $table->timestamps();
         });
     }
 
