@@ -19,6 +19,7 @@ return new class extends Migration
             $table->double('rating')->nullable();
             $table->date('date')->nullable();
             $table->timestamps();
+            $table->primary(['user_id', 'album_id']);
         });
     }
 
