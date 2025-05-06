@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('add', function (Blueprint $table) {
+        Schema::create('list', function (Blueprint $table) {
             $table->foreignId('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreignId('album_id')->references('id')->on('album')->onDelete('cascade');
             $table->string('type')->nullable();

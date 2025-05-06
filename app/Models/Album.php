@@ -10,7 +10,7 @@ class Album extends Model {
     use HasFactory;
 
     public function users() {
-        return $this->belongsToMany(User::class, "add")->withPivot('type', "review", "rating", "date");
+        return $this->belongsToMany(User::class, "list")->withPivot('type', "review", "rating", "date");
     }
 
     public $guarded = [];

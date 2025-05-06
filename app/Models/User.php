@@ -14,7 +14,7 @@ class User extends Authenticatable {
     use HasFactory, Notifiable, HasApiTokens;
 
     public function albums() {
-        return $this->belongsToMany(Album::class, "add")->withPivot('type', "review", "rating", "date");
+        return $this->belongsToMany(Album::class, "list")->withPivot('type', "review", "rating", "date");
     }
 
     /**
