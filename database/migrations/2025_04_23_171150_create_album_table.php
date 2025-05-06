@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('author');
             $table->string('genre');
             $table->date('release_date');
-            $table->longText('image');
+            $table->longText('image')->nullable();
             $table->timestamps();
         });
     }
