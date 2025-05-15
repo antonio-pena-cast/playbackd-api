@@ -51,7 +51,7 @@ class AlbumController extends Controller {
             }
 
             if (count($reviews) == 0) {
-                return response()->json(['msg' => "The album doesn't have any reviews yet"]);
+                return response()->json(['msg' => []]);
             }
 
             return response()->json(['msg' => $reviews]);
