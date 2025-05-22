@@ -17,7 +17,7 @@ class ListController extends Controller {
             $album = Album::find($request->id);
 
             if ($album == null) {
-                return response()->json(['msg' => 'Album not found'], 404);
+                return response()->json(['msg' => 'Album not found'], 403);
             }
 
             $entry = null;
@@ -90,18 +90,31 @@ class ListController extends Controller {
                 return response()->json(['msg' => 'Not logged in'], 401);
             }
 
-            foreach ($user->albums as $album) {
-                if ($album->id == $request->albumId) {
-                    if ($album->pivot->type == "listenlist") {
-                        $album->pivot->type = "played";
-                        $album->pivot->review = $request->review;
-                        $album->pivot->rating = $request->rating;
-                        $album->pivot->date = $request->date;
-                        $album->pivot->save();
-                    } else {
-                        return response()->json(['msg' => 'Album already on played list'], 400);
+            $found = false;
+
+            if (count($user->albums) <= 0) {
+                $user->albums()->attach($request->albumId, ['type' => 'played', 'review' => $request->review, 'rating' =>
+                    $request->rating, 'date' => $request->date]);
+            } else {
+                foreach ($user->albums as $album) {
+                    if ($album->id == $request->albumId) {
+                        $found = true;
+                        if ($album->pivot->type == "listenlist") {
+                            $album->pivot->type = "played";
+                            $album->pivot->review = $request->review;
+                            $album->pivot->rating = $request->rating;
+                            $album->pivot->date = $request->date;
+                            $album->pivot->save();
+                        } else {
+                            return response()->json(['msg' => 'Album already on played list'], 400);
+                        }
                     }
                 }
+            }
+
+            if (!$found) {
+                $user->albums()->attach($request->albumId, ['type' => 'played', 'review' => $request->review, 'rating' =>
+                    $request->rating, 'date' => $request->date]);
             }
 
             return response()->json(['msg' => 'Album added to played list']);

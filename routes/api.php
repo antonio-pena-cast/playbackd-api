@@ -31,9 +31,9 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
 
     Route::get("/user/albums/{id}", [ListController::class, "getUserAlbum"]);
 
-    Route::post("/played/{albumId}", [ListController::class, "setPlayedAlbum"]);
+    Route::post("/played", [ListController::class, "setPlayedAlbum"]);
 
-    Route::post("/listenlist/{albumId}", [ListController::class, "setListenListAlbum"]);
+    Route::post("/listenlist", [ListController::class, "setListenListAlbum"]);
 
     Route::put("/user", [UserController::class, "updateUser"]);
 
