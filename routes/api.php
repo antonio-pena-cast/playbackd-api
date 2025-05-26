@@ -37,6 +37,8 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
 
     Route::put("/user", [UserController::class, "updateUser"]);
 
+    Route::put("/user/albums/{id}", [ListController::class, "updateAlbum"]);
+
     Route::put("/user/rating/{albumId}", [ListController::class, "updateAlbumRating"]);
 
     Route::put("/user/review/{albumId}", [ListController::class, "updateAlbumReview"]);

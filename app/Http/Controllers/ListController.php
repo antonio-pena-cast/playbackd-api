@@ -149,6 +149,26 @@ class ListController extends Controller {
         }
     }
 
+    public function updateAlbum(Request $request) {
+        try {
+            $user = $request->user();
+
+            if ($user == null) {
+                return response()->json(['msg' => 'Not logged in'], 401);
+            }
+
+            foreach ($user->albums as $album) {
+                if ($album->id == $request->id) {
+                    $album->pivot->update(['rating' => $request->rating, 'review' => $request->review, 'date' => $request->date]);
+                }
+            }
+
+            return response()->json(['msg' => 'Album updated']);
+        } catch (\Exception $e) {
+            return response()->json(['msg' => $e->getMessage()], 500);
+        }
+    }
+
     public function updateAlbumRating(Request $request) {
         try {
             $user = $request->user();
@@ -193,7 +213,6 @@ class ListController extends Controller {
         try {
             $user = $request->user();
             $albumsLengthStart = $user->albums->count();
-            $albumsLengthFinish = $albumsLengthStart;
 
             if ($user == null) {
                 return response()->json(['msg' => 'Not logged in'], 401);
@@ -209,7 +228,7 @@ class ListController extends Controller {
                 }
             }
 
-            if ($albumsLengthStart > $albumsLengthFinish) {
+            if ($albumsLengthStart > $user->albums->count()) {
                 return response()->json(['msg' => 'Album removed from played list']);
             } else {
                 return response()->json(['msg' => 'That album wasn\'t on played list']);
