@@ -46,6 +46,8 @@ class AuthenticationController extends Controller {
     public function logout(Request $request) {
         try {
             $request->user()->currentAccessToken()->delete();
+
+            return response()->json(['msg' => 'Logout correct']);
         } catch (\Exception $e) {
             return response()->json(['msg' => $e->getMessage()], 500);
         }
